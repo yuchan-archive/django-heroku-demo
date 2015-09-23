@@ -26,6 +26,7 @@ DEBUG = True
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 ALLOWED_HOSTS = ['*']
+ROOT_URLCONF = 'hellodjango.urls'
 
 # Application definition
 
@@ -44,11 +45,42 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
 )
 
+ROOT_URLCONF = 'hellodjango.urls'
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+WSGI_APPLICATION = 'hellodjango.wsgi.application'
+
 # Database
+# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
+
 DATABASES = {
-    'default':dj_database_url.config()
+    'default':dj_database_url.config(),
+    'dev': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'hellodjango-dev',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
 }
 
 # Internationalization
