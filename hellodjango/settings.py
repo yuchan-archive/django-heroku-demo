@@ -19,10 +19,13 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ndc920r2^=pdi%)0o8^w=0f6uy21m&u3rx*-y2xp2y6(r(-&3n'
-
+try:
+    SECRET_KEY = os.environ['SECRET_KEY']
+except:
+    pass
+    
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -75,13 +78,7 @@ WSGI_APPLICATION = 'hellodjango.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
-    'default':dj_database_url.config(),
-    'dev': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'hellodjango-dev',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
+    'default':dj_database_url.config()
 }
 
 # Internationalization
@@ -107,3 +104,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR,'static'),
 )
+
+try:
+    from hellodjango.settings_local import *
+except ImportError:
+    pass
